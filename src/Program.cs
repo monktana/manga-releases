@@ -8,6 +8,6 @@ builder.Services.AddHttpClient<Manga.MangaService>(
 var app = builder.Build();
 
 // app.MapGet("/", () => "Snasen!");
-app.MapGet("/", async (Manga.MangaService s) => await s.GetMangaVolumes("volumes?itemsPerPage=48&page=1"));
+app.MapGet("/", async (Manga.MangaService s) => await s.GetMangaVolumes(new FilterRecord(100, DateOnly.FromDateTime(DateTime.Now))));
 
 app.Run();
