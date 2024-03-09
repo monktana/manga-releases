@@ -67,7 +67,8 @@ namespace Manga
       try
       {
         List<MangaVolume>? mangaVolumes = await client.GetFromJsonAsync<List<MangaVolume>>("volumes" + filter?.ToString());
-        return mangaVolumes ?? [];
+
+        return mangaVolumes?.Where(volume => volume.Number != null).ToList() ?? [];
       }
       catch (System.Exception)
       {
