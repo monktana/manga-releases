@@ -1,12 +1,27 @@
+using Manga;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddHttpClient<Manga.MangaService>(
-    client =>
-    {
-        client.BaseAddress = new Uri("https://api.manga-passion.de");
-    });
+
+MangaOptions options = new();
+builder.Configuration.GetSection(nameof(MangaOptions))
+    .Bind(options);
+
+builder.Services.AddHttpClient<MangaPassionService>(
+  client =>
+  {
+    client.BaseAddress = new Uri(options.EndpointUrl);
+  });
+
 
 var app = builder.Build();
 
-app.MapGet("/", async (Manga.MangaService s) => await s.GetMangaVolumes(new FilterRecord(100, DateTime.Now.AddDays(-1))));
+app.MapGet("/", async (MangaPassionService s) => await s.GetMangaVolumes(new FilterRecord(100, DateTime.Now.AddDays(-1))));
+
+app.MapGet("/latest", async (MangaPassionService s) =>
+{
+  var mangas = await s.GetMangaVolumes(new FilterRecord(100, DateTime.Now.AddDays(-1)));
+
+  return mangas?.Where(manga => options.Ids.Contains(manga.Id)).ToList() ?? [];
+});
 
 app.Run();
