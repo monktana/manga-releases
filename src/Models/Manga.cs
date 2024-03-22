@@ -1,9 +1,25 @@
 namespace Manga;
 
 /// <summary>
+/// Klasse, zur Kapselung der API-Konfiguration in den Appsettings.
+/// </summary>
+public sealed class MangaOptions
+{
+  /// <summary>
+  /// Liste der relevanten Mangaserien.
+  /// </summary>
+  public List<int> Ids { get; set; } = [];
+
+  /// <summary>
+  /// BaseURL der API zur Abfrage der Daten.
+  /// </summary>
+  public string BaseURL { get; set; } = string.Empty;
+};
+
+/// <summary>
 /// Informationen über den Publisher einer Mangareihe
 /// </summary>
-/// <param name="ID"></param>
+/// <param name="ID">Die ID des Datensatzes</param>
 /// <param name="Name">Der Name des Publishers</param>
 public record class Publisher(
    int ID,
@@ -13,9 +29,9 @@ public record class Publisher(
 /// <summary>
 /// Informationen über die Mangareihe
 /// </summary>
-/// <param name="ID"></param>
+/// <param name="ID">Die ID des Datensatzes</param>
 /// <param name="Title">Der Name der Mangareihe</param>
-/// <param name="Publishers"></param>
+/// <param name="Publishers">Der Publisher der Mangareihe</param>
 /// <param name="Print">Ist die Mangereihe in print veröffentlicht</param>
 /// <param name="Digital">Ist die Mangereihe digital veröffentlicht</param>
 public record class Edition(
@@ -29,11 +45,11 @@ public record class Edition(
 /// <summary>
 /// Informationen über ein Mangavolume
 /// </summary>
-/// <param name="Id"></param>
+/// <param name="Id">Die ID des Datensatzes</param>
 /// <param name="Number">Die Nummer des Volumes</param>
 /// <param name="LastNumber">Die Nummer des letzten Volumes der Mangareihe</param>
 /// <param name="Arragement"></param>
-/// <param name="Pages"></param>
+/// <param name="Pages">Die Seitenanzahl des Mangavolumes</param>
 /// <param name="Year">Das Jahr der Veröffentlichung</param>
 /// <param name="Month">Die Monat der Veröffentlichung</param>
 /// <param name="Day">Der Tag der Veröffentlichung</param>

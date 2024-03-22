@@ -1,28 +1,24 @@
 namespace Manga;
 
 /// <summary>
-/// 
+/// Serviceklasse für den Zugriff auf die API von Mangapassion.
 /// </summary>
-/// <param name="client"></param>
-/// <param name="logger"></param>
+/// <remarks>
+/// https://www.manga-passion.de/
+/// </remarks>
+/// <param name="client">Insatz eines Httpclient</param>
 public class MangaPassionService(HttpClient client)
 {
   /// <summary>
-  /// Requests Mangareleases based on the provided filterquery.
+  /// Fragt die zuletzt veröffentlichten Mangavolumes an.
+  /// Die Menge und der Zeitraum wird vom optionalen FilterRecord bestimmt.
   /// </summary>
-  /// <param name="filter">The query to filter the request</param>
-  /// <returns>List of Manga</returns>
+  /// <param name="filter">Filter, um die Menge und den Zeitraum der angefragten Daten zu bestimmen.</param>
+  /// <returns>Liste von Mangavolumes</returns>
   public async Task<List<MangaVolume>> GetMangaVolumes(FilterRecord? filter)
   {
-    try
-    {
-      List<MangaVolume>? mangaVolumes = await client.GetFromJsonAsync<List<MangaVolume>>("volumes" + filter?.ToString());
+    List<MangaVolume>? mangaVolumes = await client.GetFromJsonAsync<List<MangaVolume>>("volumes" + filter?.ToString());
 
-      return mangaVolumes?.Where(volume => volume.Number != null).ToList() ?? [];
-    }
-    catch (System.Exception)
-    {
-      throw;
-    }
+    return mangaVolumes?.Where(volume => volume.Number != null).ToList() ?? [];
   }
 }

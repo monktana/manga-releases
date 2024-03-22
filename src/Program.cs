@@ -9,7 +9,7 @@ builder.Configuration.GetSection(nameof(MangaOptions))
 builder.Services.AddHttpClient<MangaPassionService>(
   client =>
   {
-    client.BaseAddress = new Uri(options.EndpointUrl);
+    client.BaseAddress = new Uri(options.BaseURL);
   });
 
 
