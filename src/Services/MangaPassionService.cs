@@ -17,7 +17,7 @@ public class MangaPassionService(HttpClient client)
   /// <returns>Liste von Mangavolumes</returns>
   public async Task<List<MangaVolume>> GetMangaVolumes(FilterRecord? filter)
   {
-    List<MangaVolume>? mangaVolumes = await client.GetFromJsonAsync<List<MangaVolume>>("volumes" + filter?.ToString());
+    var mangaVolumes = await client.GetFromJsonAsync<List<MangaVolume>>("volumes" + filter?.ToString());
 
     return mangaVolumes?.Where(volume => volume.Number != null).ToList() ?? [];
   }

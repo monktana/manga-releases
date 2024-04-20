@@ -19,23 +19,23 @@ public sealed class MangaOptions
 /// <summary>
 /// Informationen über den Publisher einer Mangareihe
 /// </summary>
-/// <param name="ID">Die ID des Datensatzes</param>
+/// <param name="Id">Die ID des Datensatzes</param>
 /// <param name="Name">Der Name des Publishers</param>
-public record class Publisher(
-   int ID,
+public record Publisher(
+   int Id,
    string? Name
 );
 
 /// <summary>
 /// Informationen über die Mangareihe
 /// </summary>
-/// <param name="ID">Die ID des Datensatzes</param>
+/// <param name="Id">Die ID des Datensatzes</param>
 /// <param name="Title">Der Name der Mangareihe</param>
 /// <param name="Publishers">Der Publisher der Mangareihe</param>
 /// <param name="Print">Ist die Mangereihe in print veröffentlicht</param>
 /// <param name="Digital">Ist die Mangereihe digital veröffentlicht</param>
-public record class Edition(
-  int ID,
+public record Edition(
+  int Id,
   string? Title,
   Publisher[]? Publishers,
   bool Print,
