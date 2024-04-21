@@ -1,9 +1,9 @@
 namespace test;
 
-public class FilterRecord_ToString
+public class FilterRecordTests
 {
     [Fact]
-    public void ToString_Month_success() {
+    public void ToString_FormatsAMonthWithTwoCharacters() {
         var filterRecord = new FilterRecord(5, new DateTime(2022, 8, 11));
         var result = filterRecord.ToString();
 
@@ -11,7 +11,7 @@ public class FilterRecord_ToString
     }
 
     [Fact]
-    public void ToString_Day_success() {
+    public void ToString_FormatsADayWithTwoCharacters() {
         var filterRecord = new FilterRecord(5, new DateTime(2022, 11, 3));
         var result = filterRecord.ToString();
 
