@@ -1,7 +1,8 @@
 using System.Text;
 using System.Text.Json;
+using MangaReleases.Models;
 
-namespace Manga;
+namespace MangaReleases.Services;
 
 public class DiscordNotificationService(HttpClient client) : INotificationService
 {

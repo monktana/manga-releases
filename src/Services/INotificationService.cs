@@ -1,4 +1,6 @@
-namespace Manga;
+using MangaReleases.Models;
+
+namespace MangaReleases.Services;
 
 public interface INotificationService
 {

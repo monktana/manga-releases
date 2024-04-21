@@ -1,4 +1,6 @@
-namespace test;
+using MangaReleases.Models;
+
+namespace MangaReleases.UnitTests;
 
 public class FilterRecordTests
 {

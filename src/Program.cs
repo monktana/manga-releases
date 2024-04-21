@@ -1,6 +1,5 @@
-using System.Text;
-using System.Text.Json;
-using Manga;
+using MangaReleases.Models;
+using MangaReleases.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +10,8 @@ builder.Configuration.GetSection(nameof(MangaOptions))
 builder.Services.AddHttpClient<MangaPassionService>(
   client =>
   {
-    client.BaseAddress = new Uri(options.BaseURL);
+    client.BaseAddress = new Uri(options.BaseUrl);
   });
-
-// builder.Services.AddScoped<INotificationService, DiscordNotificationService>();
 
 builder.Services.AddHttpClient<INotificationService, DiscordNotificationService>(
   client =>
@@ -24,11 +21,11 @@ builder.Services.AddHttpClient<INotificationService, DiscordNotificationService>
 
 var app = builder.Build();
 
-app.MapGet("/", async (MangaPassionService s) => await s.GetMangaVolumes(new FilterRecord(100, DateTime.Now.AddDays(-1))));
+app.MapGet("/", async (MangaPassionService mangaService) => await mangaService.GetMangaVolumes());
 
-app.MapGet("/latest", async (MangaPassionService s, INotificationService notificationService) =>
+app.MapGet("/latest", async (MangaPassionService mangaService, INotificationService notificationService) =>
 {
-  var mangas = await s.GetMangaVolumes(new FilterRecord(3, DateTime.Now.AddDays(-1)));
+  var mangas = await mangaService.GetMangaVolumes(new FilterRecord(3, DateTime.Now.AddDays(-1)));
 
   // var result = mangas.Where(manga => options.Ids.Contains(manga.Id)).ToList();
   var notifications = mangas.Select(volume => new Notification {Content = $"New Release: {volume.Edition!.Title}"});
