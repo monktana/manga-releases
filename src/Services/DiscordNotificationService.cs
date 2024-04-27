@@ -8,12 +8,9 @@ public class DiscordNotificationService(HttpClient client) : INotificationServic
 {
     public async Task<HttpResponseMessage> Send(Notification notification)
     {
-        var serialized = JsonSerializer.Serialize(notification);
-        var content = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-        return await client.PostAsync(
+        return await client.PostAsJsonAsync(
             "",
-            content
+            notification
         );
     }
 

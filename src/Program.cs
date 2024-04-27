@@ -16,23 +16,20 @@ builder.Services.AddHttpClient<MangaPassionService>(
 builder.Services.AddHttpClient<INotificationService, DiscordNotificationService>(
   client =>
   {
-    client.BaseAddress = new Uri("https://discord.com");
+    client.BaseAddress = new Uri(builder.Configuration.GetConnectionString("Discord")!);
   });
 
 var app = builder.Build();
 
-app.MapGet("/", async (MangaPassionService mangaService) => await mangaService.GetMangaVolumes());
-
-app.MapGet("/latest", async (MangaPassionService mangaService, INotificationService notificationService) =>
+app.MapGet("/update", async (MangaPassionService mangaService, INotificationService notificationService) =>
 {
-  var mangas = await mangaService.GetMangaVolumes(new FilterRecord(3, DateTime.Now.AddDays(-1)));
-
-  // var result = mangas.Where(manga => options.Ids.Contains(manga.Id)).ToList();
-  var notifications = mangas.Select(volume => new Notification {Content = $"New Release: {volume.Edition!.Title}"});
-
+  var mangas = await mangaService.GetMangaVolumes(new FilterRecord(50, DateTime.Now.AddDays(-1)));
+  
+  var result = mangas.Where(manga => options.Ids.Contains(manga.Id)).ToList();
+  var notifications = result.Select(volume => new Notification {Content = $"New Release: {volume.Edition!.Title}"});
   await notificationService.Send(notifications);
   
-  return mangas;
+  return Results.Ok(result);
 });
 
 app.Run();
