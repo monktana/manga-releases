@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 MangaOptions options = new();
 builder.Configuration.GetSection(nameof(MangaOptions))
     .Bind(options);
-
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddHttpClient<MangaPassionService>(
   client =>
   {
@@ -20,6 +20,8 @@ builder.Services.AddHttpClient<INotificationService, DiscordNotificationService>
   });
 
 var app = builder.Build();
+
+app.Logger.LogInformation("Manga IDs: {ids}", options.Ids);
 
 app.MapGet("/update", async (MangaPassionService mangaService, INotificationService notificationService) =>
 {
